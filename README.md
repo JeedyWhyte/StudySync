@@ -636,11 +636,11 @@ test: add integration tests for learner enrollment
 
 ## 👥 Team
 
-| Name |
-|---|---|
-| Bryan Jerry-Bassey(https://github.com/JeedyWhyte) |
-| Bethel Onyealilach(https://github.com/B-got-banned) |
-| Lucky Abigail Atuhaire(https://github.com/laatuhaire) |
+**| Name |**
+
+| [Bryan Jerry-Bassey](https://github.com/JeedyWhyte) |
+| [Bethel Onyealilach](https://github.com/B-got-banned) |
+| [Lucky Abigail Atuhaire](https://github.com/laatuhaire) |
 
 ---
 
