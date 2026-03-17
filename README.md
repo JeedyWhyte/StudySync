@@ -143,7 +143,7 @@ Learner Module          Lecturer Module
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/Edu-Tech/backend.git
+git clone https://github.com/JeedyWhyte/Capstone-Project.git
 cd backend
 ```
 
@@ -638,9 +638,9 @@ test: add integration tests for learner enrollment
 
 | Name |
 |---|---|
-| Bryan Jerry-Bassey | (https://github.com/JeedyWhyte)
-| Bethel Onyealilach | (https://github.com/B-got-banned)
-| Lucky Abigail Atuhaire | (https://github.com/laatuhaire)
+| Bryan Jerry-Bassey(https://github.com/JeedyWhyte) |
+| Bethel Onyealilach(https://github.com/B-got-banned) |
+| Lucky Abigail Atuhaire(https://github.com/laatuhaire) |
 
 ---
 
