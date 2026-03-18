@@ -1,0 +1,34 @@
+{
+  "name": "lecture-app",
+  "version": "1.0.0",
+  "description": "<div align=\"center\">",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JeedyWhyte/Capstone-Project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/JeedyWhyte/Capstone-Project/issues"
+  },
+  "homepage": "https://github.com/JeedyWhyte/Capstone-Project#readme",
+  "devDependencies": {
+    "dotenv": "^17.3.1",
+    "nodemon": "^3.1.14"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "express": "^5.2.1",
+    "joi": "^18.0.2",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.3.1"
+  }
+}
