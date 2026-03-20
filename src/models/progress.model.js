@@ -11,12 +11,21 @@ const progressSchema = new mongoose.Schema({
         ref: "Course",
         required: true
     },
-    progress: {
+    learningPathId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Path'
+    },
+    completedModules: [String],
+    percentComplete: {
         type: Number,
-        required: true,
         default: 0
-    }
-});
+    },
+    streakDays: {
+        type: Number,
+        default: 0
+    },
+    lastActivityAt: Date
+}, { timestamps: true });
 
 const Progress = mongoose.model("Progress", progressSchema);
 module.exports = Progress;
