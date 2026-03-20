@@ -2,7 +2,7 @@
 
 <br />
 
-# 🎓 Edu-Tech
+# 🎓 StudySync
 
 ### Personalized EdTech Platform for Nigerian Learners
 
@@ -30,7 +30,7 @@ A backend API powering curated learning paths, lecturer course management, and a
 
 ## 📌 Overview
 
-**Edu-Tech** is an EdTech platform designed to solve a specific problem: Nigerian university students and early-career professionals struggle to complete online courses due to unstable internet, lack of accountability, and information overload from too many choices.
+**StudySync** is an EdTech platform designed to solve a specific problem: Nigerian university students and early-career professionals struggle to complete online courses due to unstable internet, lack of accountability, and information overload from too many choices.
 
 The platform addresses this with:
 
@@ -258,7 +258,7 @@ tests/
 
 ## 📡 API Reference
 
-**Base URL:** `https://api.Edu-Tech.com`  
+**Base URL:** `https://api.StudySync.com`  
 **Local:** `http://localhost:5000`  
 **All routes prefixed with:** `/api`
 
@@ -468,7 +468,7 @@ NODE_ENV=development
 APP_URL=https://your-app.onrender.com
 
 # MongoDB Atlas — M0 free cluster
-MONGO_URI=mongodb+srv://<user>:<password>@cluster0.mongodb.net/Edu-Tech
+MONGO_URI=mongodb+srv://<user>:<password>@cluster0.mongodb.net/StudySync
 
 # Redis — Render free instance
 REDIS_URL=redis://red-xxxxxxxxxxxxxxxx:6379
@@ -487,13 +487,13 @@ PATH_GEN_MODEL=claude-haiku-4-5-20251001
 
 # Email — Resend (free: 100 emails/day)
 RESEND_API_KEY=re_...
-EMAIL_FROM=noreply@Edu-Tech.com
+EMAIL_FROM=noreply@StudySync.com
 
 # File storage — Cloudinary (free: 25 GB)
 CLOUDINARY_URL=cloudinary://api_key:api_secret@cloud_name
 
 # Admin seed — remove from .env after running create-admin.js once
-SEED_ADMIN_EMAIL=admin@Edu-Tech.com
+SEED_ADMIN_EMAIL=admin@StudySync.com
 SEED_ADMIN_PASSWORD=change_me_immediately
 ```
 
@@ -549,7 +549,7 @@ npm run test:integration
 npm run test:watch
 ```
 
-Integration tests require a running MongoDB instance. The test suite uses a separate `Edu-Tech_test` database and cleans up after each run.
+Integration tests require a running MongoDB instance. The test suite uses a separate `StudySync_test` database and cleans up after each run.
 
 ---
 
@@ -609,7 +609,7 @@ Integration tests require a running MongoDB instance. The test suite uses a sepa
 
 ## 🤝 Contributing
 
-This is a private repository for the Edu-Tech engineering team. Branch and commit conventions:
+This is a private repository for the StudySync engineering team. Branch and commit conventions:
 
 **Branches**
 ```
@@ -652,6 +652,6 @@ This project is licensed under the MIT License. See [LICENSE](LICENSE) for detai
 
 <div align="center">
 
-Built with purpose for Nigerian learners · Edu-Tech © 2026
+Built with purpose for Nigerian learners · StudySync © 2026
 
 </div>
