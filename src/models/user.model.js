@@ -28,7 +28,12 @@ const userSchema = new mongoose.Schema({
     course: String,
     learningIntent: String,
     currentLevel: { type: String, enum: ['beginner', 'intermediate', 'advanced'] },
-    complete: { type: Boolean, default: false }
+    complete: { type: Boolean, default: false },
+    schedule: {
+      hoursPerDay: { type: Number },        // e.g. 1, 2, 3
+      daysPerWeek: { type: Number },        // e.g. 3, 5, 7
+      preferredTime: { type: String, enum: ['morning', 'afternoon', 'evening'] }
+    },
   },
   inviteToken: String,
   inviteExpiresAt: Date,

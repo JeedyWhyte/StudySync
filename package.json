@@ -1,5 +1,5 @@
 {
-  "name": "lecture-app",
+  "name": "study-sync-backend",
   "version": "1.0.0",
   "description": "Personalized EdTech platform backend for Nigerian learners",
   "main": "server.js",
@@ -24,12 +24,14 @@
     "nodemon": "^3.1.14"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.80.0",
     "bcrypt": "^6.0.0",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "joi": "^18.0.2",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.3.1",
-    "redis": "^5.11.0"
+    "redis": "^5.11.0",
+    "resend": "^6.9.4"
   }
 }
