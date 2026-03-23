@@ -2,8 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const signToken = (payload) =>
     jwt.sign(payload, process.env.JWT_SECRET, { 
-        expiresIn: process.env.JWT_EXPIRES_IN,
-        ...options // Spread operator to include any additional options if needed 
+        expiresIn: process.env.JWT_EXPIRES_IN 
     });
 
 const signRefresh = (payload) =>
