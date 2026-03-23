@@ -1,7 +1,12 @@
+// This scans your .env file and ensures all required environment variables are set before the app starts.
 const requiredEnvVars = [
+  'NODE_ENV',
+  'APP_URL',
   'MONGODB_URI',
   'REDIS_URL',
   'ANTHROPIC_API_KEY',
+  'CHATBOT_MODEL',
+  'PATH_GEN_MODEL',
   'RESEND_API_KEY',
   'EMAIL_FROM',
   'CLOUDINARY_URL',
@@ -16,6 +21,7 @@ const requiredEnvVars = [
 function validateEnv() {
   const missing = [];
 
+  // Check for each required environment variable and add it to the missing list if it's not set
   requiredEnvVars.forEach((envVar) => {
     if (!process.env[envVar]) {
       missing.push(envVar);
@@ -25,7 +31,7 @@ function validateEnv() {
   if (missing.length > 0) {
     console.error('❌ Missing required environment variables:');
     missing.forEach((m) => console.error(`   - ${m}`));
-    
+
     // In production/sprint build, we crash the process if vars are missing
     process.exit(1);
   }
