@@ -14,8 +14,9 @@ const requiredEnvVars = [
   'JWT_EXPIRES_IN',
   'REFRESH_TOKEN_SECRET',
   'REFRESH_TOKEN_EXPIRES_IN',
-  'SEED_ADMIN_EMAIL',
-  'SEED_ADMIN_PASSWORD'
+  // 'SEED_ADMIN_EMAIL', not required since we only need it for seeding, and we want to ensure 
+  // it's not accidentally left in production .env after seeding
+  // 'SEED_ADMIN_PASSWORD'
 ];
 
 function validateEnv() {
