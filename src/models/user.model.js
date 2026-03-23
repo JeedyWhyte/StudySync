@@ -35,6 +35,9 @@ const userSchema = new mongoose.Schema({
       preferredTime: { type: String, enum: ['morning', 'afternoon', 'evening'] }
     },
   },
+  refreshToken: String,
+  resetToken: String,
+  resetTokenExpiresAt: Date,
   inviteToken: String,
   inviteExpiresAt: Date,
 });

@@ -14,7 +14,7 @@ const courseSchema = new mongoose.Schema({
     enum: ["Beginner", "Intermediate", "Advanced"],
     required: true
   },
-  category: string,
+  category: String,
   tags: [String],
   offlineAvailable: { type: Boolean, default: false },
   status: { type: String, enum: ['draft', 'pending', 'approved', 'rejected'], default: 'draft' },
