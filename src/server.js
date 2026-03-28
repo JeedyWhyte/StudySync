@@ -7,6 +7,11 @@ const app = require('./app');
 const connectDB = require('./config/db');
 const { connectRedis } = require('./config/redis');
 const validateEnv = require('./config/env');
+const { startDeadlineCheck } = require('./jobs/schedulers/deadlineCheck');
+
+// These workers will run in the background and process jobs from the queue
+const pathGenerationWorker = require('./jobs/workers/pathGeneration.worker');
+const notificationWorker = require('./jobs/workers/notification.worker');
 
 const PORT = process.env.PORT || 3000;
 
@@ -17,6 +22,8 @@ const start = async () => {
     app.listen(PORT, () => {
         console.log(`Server running on port ${PORT}`);
     });
+
+    startDeadlineCheck();
 };
 
 start();

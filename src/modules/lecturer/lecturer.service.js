@@ -1,4 +1,5 @@
 const User = require('../../models/user.model');
+const Course = require('../../models/course.model');
 
 const getProfile = async (userId) => {
     return await User.findById(userId).select('-password');
