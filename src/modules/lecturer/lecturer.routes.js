@@ -44,6 +44,14 @@ router.patch(
     lecturerController.updateCourse
 );
 
+// SUBMIT COURSE FOR APPROVAL
+router.post(
+    '/courses/:id/submit',
+    authenticate,
+    requireRole('lecturer'),
+    lecturerController.submitCourse
+);
+
 // Delete course
 router.delete(
     '/courses/:id', 
@@ -74,6 +82,22 @@ router.delete(
     authenticate,
     requireRole('lecturer'),
     lecturerController.deleteModule
+);
+
+// GET ENROLLED STUDENTS
+router.get(
+    '/courses/:id/students',
+    authenticate,
+    requireRole('lecturer'),
+    lecturerController.getEnrolledStudents
+);
+
+// GET COURSE PROGRESS STATS
+router.get(
+    '/courses/:id/progress',
+    authenticate,
+    requireRole('lecturer'),
+    lecturerController.getCourseProgress
 );
 
 module.exports = router;

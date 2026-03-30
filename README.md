@@ -468,7 +468,7 @@ NODE_ENV=development
 APP_URL=https://your-app.onrender.com
 
 # MongoDB Atlas — M0 free cluster
-MONGO_URI=mongodb+srv://<user>:<password>@cluster0.mongodb.net/StudySync
+MONGODB_URI=mongodb+srv://<user>:<password>@cluster0.mongodb.net/StudySync
 
 # Redis — Render free instance
 REDIS_URL=redis://red-xxxxxxxxxxxxxxxx:6379

@@ -4,9 +4,19 @@ const Path = require('../../models/path.model');
 
 // ─── CONNECTION CONFIG ────────────────────────────────────────────────────────
 
+const redisUrl = new URL(process.env.REDIS_URL);
+const isSecure = process.env.REDIS_URL.startsWith('rediss://');
+
 const connection = {
-    host: new URL(process.env.REDIS_URL).hostname,
-    port: new URL(process.env.REDIS_URL).port,
+    host: redisUrl.hostname,
+    port: redisUrl.port,
+    username: redisUrl.username || undefined,
+    password: redisUrl.password || undefined,
+    tls: isSecure ? {} : undefined,
+    enableOfflineQueue: false,
+    enableReadyCheck: false,
+    maxRetriesPerRequest: null,
+    lazyConnect: true
 };
 
 // ─── WORKER ───────────────────────────────────────────────────────────────────

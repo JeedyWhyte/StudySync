@@ -9,6 +9,8 @@ const rateLimiter = require('./middleware/ratelimiter');
 const authRoutes = require('./modules/auth/auth.routes');
 const pathsRoutes = require('./modules/paths/paths.routes');
 const chatbotRoutes = require('./modules/chatbot/chatbot.routes');
+const lecturerRoutes = require('./modules/lecturer/lecturer.routes');
+const notificationRoutes = require('./modules/notifications/notifications.routes');
 
 const app = express();
 
@@ -26,6 +28,8 @@ app.get('/health', (req, res) => {
 app.use('/api/auth', rateLimiter(20, 60), authRoutes);
 app.use('/api/learner/path', pathsRoutes);
 app.use('/api/chatbot', chatbotRoutes);
+app.use('/api/lecturer', lecturerRoutes);
+app.use('/api/notifications', notificationRoutes);
 
 app.use(errorHandler);
 
