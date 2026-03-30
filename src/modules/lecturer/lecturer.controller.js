@@ -60,6 +60,19 @@ const updateCourse = async (req, res, next) => {
     }
 };
 
+// SUBMIT COURSE FOR APPROVAL
+const submitCourse = async (req, res, next) => {
+    try {
+        const data = await lecturerService.submitCourse(
+            req.user.userId,
+            req.params.id
+        );
+        return success(res, data, 'Course submitted for approval');
+    } catch (err) {
+        next(err);
+    }
+};
+
 // DELETE COURSE
 const deleteCourse = async (req, res, next) => {
     try {
@@ -111,7 +124,32 @@ const deleteModule = async (req, res, next) => {
     } catch (err) {
         next(err);
     }
+};// GET ENROLLED STUDENTS
+const getEnrolledStudents = async (req, res, next) => {
+    try {
+        const data = await lecturerService.getEnrolledStudents(
+            req.user.userId,
+            req.params.id
+        );
+        return success(res, data, 'Enrolled students retrieved');
+    } catch (err) {
+        next(err);
+    }
 };
+
+// GET COURSE PROGRESS STATS
+const getCourseProgress = async (req, res, next) => {
+    try {
+        const data = await lecturerService.getCourseProgress(
+            req.user.userId,
+            req.params.id
+        );
+        return success(res, data, 'Course progress retrieved');
+    } catch (err) {
+        next(err);
+    }
+};
+
 
 module.exports = {
     getProfile,
@@ -119,8 +157,11 @@ module.exports = {
     getMyCourses,
     getCourseById,
     updateCourse,
+    submitCourse,
     deleteCourse,
     addModule,
     updateModule,
-    deleteModule
+    deleteModule,
+    getEnrolledStudents,  
+    getCourseProgress
 };

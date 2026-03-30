@@ -10,16 +10,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JeedyWhyte/Capstone-Project.git"
+    "url": "git+https://github.com/JeedyWhyte/StudySync.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/JeedyWhyte/Capstone-Project/issues"
+    "url": "https://github.com/JeedyWhyte/StudySync/issues"
   },
-  "homepage": "https://github.com/JeedyWhyte/Capstone-Project#readme",
+  "homepage": "https://github.com/JeedyWhyte/StudySync#readme",
   "devDependencies": {
     "nodemon": "^3.1.14"
   },
@@ -38,6 +38,7 @@
     "mongoose": "^9.3.3",
     "morgan": "^1.10.1",
     "multer": "^2.1.1",
+    "node-cron": "^4.2.1",
     "redis": "^5.11.0",
     "resend": "^6.9.4",
     "winston": "^3.19.0",
