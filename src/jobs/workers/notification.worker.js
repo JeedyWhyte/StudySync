@@ -15,7 +15,7 @@ const connection = {
     username: redisUrl.username || undefined,
     password: redisUrl.password || undefined,
     tls: isSecure ? {} : undefined,
-    enableOfflineQueue: false,
+    enableOfflineQueue: true,
     enableReadyCheck: false,
     maxRetriesPerRequest: null,
     lazyConnect: true
