@@ -313,6 +313,71 @@ const getCourseProgress = async (userId, courseId) => {
     };
 };
 
+// UPLOAD COURSE THUMBNAIL
+const uploadCourseThumbnail = async (userId, courseId, fileBuffer) => {
+    const course = await Course.findById(courseId);
+
+    if (!course) {
+        const err = new Error('Course not found');
+        err.status = 404;
+        err.code = 'NOT_FOUND';
+        throw err;
+    }
+
+    // Ownership check — lecturer can only upload to their own course
+    if (course.createdBy.toString() !== userId) {
+        const err = new Error('Unauthorized access to this course');
+        err.status = 403;
+        err.code = 'FORBIDDEN';
+        throw err;
+    }
+
+    const { uploadThumbnail } = require('../../utils/upload.service');
+    const thumbnailUrl = await uploadThumbnail(fileBuffer, courseId);
+
+    course.thumbnailUrl = thumbnailUrl;
+    await course.save();
+
+    return { thumbnailUrl };
+};
+
+// UPLOAD MODULE VIDEO
+const uploadModuleVideo = async (userId, courseId, moduleId, fileBuffer) => {
+    const course = await Course.findById(courseId);
+
+    if (!course) {
+        const err = new Error('Course not found');
+        err.status = 404;
+        err.code = 'NOT_FOUND';
+        throw err;
+    }
+
+    // Ownership check
+    if (course.createdBy.toString() !== userId) {
+        const err = new Error('Unauthorized access to this course');
+        err.status = 403;
+        err.code = 'FORBIDDEN';
+        throw err;
+    }
+
+    const module = course.modules.id(moduleId);
+
+    if (!module) {
+        const err = new Error('Module not found');
+        err.status = 404;
+        err.code = 'NOT_FOUND';
+        throw err;
+    }
+
+    const { uploadModuleVideo: uploadToCloud } = require('../../utils/upload.service');
+    const videoUrl = await uploadToCloud(fileBuffer, courseId, moduleId);
+
+    module.videoUrl = videoUrl;
+    await course.save();
+
+    return { videoUrl };
+};
+
 module.exports = {
     getProfile,
     createCourse,
@@ -325,5 +390,7 @@ module.exports = {
     deleteModule,
     submitCourse,
     getEnrolledStudents,
-    getCourseProgress
+    getCourseProgress,
+    uploadCourseThumbnail, 
+    uploadModuleVideo
 };

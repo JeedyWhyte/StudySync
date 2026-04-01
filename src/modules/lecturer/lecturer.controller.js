@@ -1,5 +1,5 @@
 const lecturerService = require('./lecturer.service');
-const { success } = require('../../utils/response');
+const { success, error } = require('../../utils/response');
 
 const getProfile = async (req, res, next) => {
     try {
@@ -150,6 +150,43 @@ const getCourseProgress = async (req, res, next) => {
     }
 };
 
+// UPLOAD COURSE THUMBNAIL
+const uploadCourseThumbnail = async (req, res, next) => {
+    try {
+        // req.file comes from Multer middleware applied on the route
+        if (!req.file) {
+            return error(res, 'No file uploaded', 400, 'VALIDATION_ERROR');
+        }
+
+        const data = await lecturerService.uploadCourseThumbnail(
+            req.user.userId,
+            req.params.id,
+            req.file.buffer   // Multer memoryStorage puts the file here
+        );
+        return success(res, data, 'Thumbnail uploaded successfully');
+    } catch (err) {
+        next(err);
+    }
+};
+
+// UPLOAD MODULE VIDEO
+const uploadModuleVideo = async (req, res, next) => {
+    try {
+        if (!req.file) {
+            return error(res, 'No file uploaded', 400, 'VALIDATION_ERROR');
+        }
+
+        const data = await lecturerService.uploadModuleVideo(
+            req.user.userId,
+            req.params.id,
+            req.params.mId,
+            req.file.buffer
+        );
+        return success(res, data, 'Video uploaded successfully');
+    } catch (err) {
+        next(err);
+    }
+};
 
 module.exports = {
     getProfile,
@@ -163,5 +200,7 @@ module.exports = {
     updateModule,
     deleteModule,
     getEnrolledStudents,  
-    getCourseProgress
+    getCourseProgress,
+    uploadCourseThumbnail,
+    uploadModuleVideo 
 };

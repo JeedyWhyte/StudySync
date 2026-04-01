@@ -16,18 +16,24 @@ const courseSchema = new mongoose.Schema({
   },
   category: String,
   tags: [String],
+  thumbnailUrl: String,
   offlineAvailable: { type: Boolean, default: false },
-  status: { type: String, enum: ['draft', 'pending', 'approved', 'rejected'], default: 'draft' },
+  status: {
+    type: String,
+    enum: ['draft', 'pending', 'approved', 'rejected'],
+    default: 'draft'
+  },
   rejectionReason: String,
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   enrollmentCount: { type: Number, default: 0 },
   modules: [{
     title: String,
     durationMins: Number,
-    resourceUrl: String
+    // resourceUrl: String,    // external link — YouTube, Google Drive, etc.
+    videoUrl: String    //direct video to cloudinary
   }]
 },
-{
+  {
     timestamps: true
   });
 
