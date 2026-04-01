@@ -3,6 +3,7 @@ const router = express.Router();
 
 const lecturerController = require('./lecturer.controller');
 const { authenticate, requireRole } = require('../../middleware/auth');
+const { imageUpload, videoUpload } = require('../../middleware/upload.middleware');
 
 // Lecturer profile
 router.get(
@@ -98,6 +99,26 @@ router.get(
     authenticate,
     requireRole('lecturer'),
     lecturerController.getCourseProgress
+);
+
+// UPLOAD COURSE THUMBNAIL
+// imageUpload.single('thumbnail') means we expect one file under the field name 'thumbnail'
+router.post(
+    '/courses/:id/thumbnail',
+    authenticate,
+    requireRole('lecturer'),
+    imageUpload.single('thumbnail'),
+    lecturerController.uploadCourseThumbnail
+);
+
+// UPLOAD MODULE VIDEO
+// videoUpload.single('video') means we expect one file under the field name 'video'    
+router.post(
+    '/courses/:id/modules/:mId/video',
+    authenticate,
+    requireRole('lecturer'),
+    videoUpload.single('video'),
+    lecturerController.uploadModuleVideo
 );
 
 module.exports = router;
