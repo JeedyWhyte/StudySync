@@ -46,7 +46,13 @@ const generateLearningPath = async (learnerProfile) => {
       }]
     });
 
-    return JSON.parse(response.content[0].text);
+    const raw = response.content[0].text
+      .replace(/^```json\s*/i, '')
+      .replace(/^```\s*/i, '')
+      .replace(/```\s*$/i, '')
+      .trim();
+
+    return JSON.parse(raw);
 
   } catch (err) {
     console.error('AI path generation error:', err.message);

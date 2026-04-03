@@ -35,6 +35,15 @@ const userSchema = new mongoose.Schema({
       preferredTime: { type: String, enum: ['morning', 'afternoon', 'evening'] }
     },
   },
+  profile: {
+    phone: { type: String },
+    bio: { type: String },
+    university: { type: String },   // learner field
+    course: { type: String },   // learner's programme/course of study
+    institution: { type: String },   // lecturer field
+    expertise: { type: String },   // lecturer field
+    avatar: { type: String },   // Cloudinary URL — both roles
+  },
   refreshToken: String,
   resetToken: String,
   resetTokenExpiresAt: Date,

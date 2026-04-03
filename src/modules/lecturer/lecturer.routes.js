@@ -121,4 +121,20 @@ router.post(
     lecturerController.uploadModuleVideo
 );
 
+// NOTIFY COURSE APPROVED
+router.post(
+    '/courses/:id/notify-approved',
+    authenticate,
+    requireRole('admin'),
+    lecturerController.notifyCourseApproved
+);
+
+// NOTIFY COURSE REJECTED
+router.post(
+    '/courses/:id/notify-rejected',
+    authenticate,
+    requireRole('admin'),
+    lecturerController.notifyCourseRejected
+);
+
 module.exports = router;

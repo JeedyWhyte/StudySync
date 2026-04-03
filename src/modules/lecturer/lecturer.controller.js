@@ -10,6 +10,15 @@ const getProfile = async (req, res, next) => {
     }
 };
 
+const updateProfile = async (req, res, next) => {
+    try {
+        const data = await lecturerService.updateProfile(req.user.userId, req.body);
+        return success(res, data, 'Profile updated');
+    } catch (err) {
+        next(err);
+    }
+};
+
 // CREATE COURSE
 const createCourse = async (req, res, next) => {
     try {
@@ -188,8 +197,36 @@ const uploadModuleVideo = async (req, res, next) => {
     }
 };
 
+// NOTIFY COURSE APPROVED (called by admin after approving in Atlas)
+const notifyCourseApproved = async (req, res, next) => {
+    try {
+        await lecturerService.notifyCourseApproved(req.params.id);
+        return success(res, {}, 'Approval notification sent');
+    } catch (err) {
+        next(err);
+    }
+};
+
+// NOTIFY COURSE REJECTED (called by admin after rejecting in Atlas)
+const notifyCourseRejected = async (req, res, next) => {
+    try {
+        // reason comes from the request body
+        const { reason } = req.body;
+
+        if (!reason) {
+            return error(res, 'Rejection reason is required', 400, 'VALIDATION_ERROR');
+        }
+
+        await lecturerService.notifyCourseRejected(req.params.id, reason);
+        return success(res, {}, 'Rejection notification sent');
+    } catch (err) {
+        next(err);
+    }
+};
+
 module.exports = {
     getProfile,
+    updateProfile,
     createCourse,
     getMyCourses,
     getCourseById,
@@ -202,5 +239,7 @@ module.exports = {
     getEnrolledStudents,  
     getCourseProgress,
     uploadCourseThumbnail,
-    uploadModuleVideo 
+    uploadModuleVideo,
+    notifyCourseApproved,  
+    notifyCourseRejected
 };

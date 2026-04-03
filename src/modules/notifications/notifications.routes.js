@@ -8,7 +8,6 @@ const { authenticate, requireRole } = require('../../middleware/auth');
 router.get(
     '/',
     authenticate,
-    requireRole('lecturer'),
     notificationsController.getNotifications
 );
 
@@ -16,7 +15,6 @@ router.get(
 router.patch(
     '/:id/read',
     authenticate,
-    requireRole('lecturer'),
     notificationsController.markAsRead
 );
 
@@ -24,7 +22,6 @@ router.patch(
 router.patch(
     '/read-all',
     authenticate,
-    requireRole('lecturer'),
     notificationsController.markAllAsRead
 );
 
