@@ -5,9 +5,9 @@ const Course = require('../../models/course.model');
 // draft, pending, or rejected courses. That's the lecturer/admin concern.
 // Supports pagination and filtering by level and tag.
 const getCourses = async (query = {}) => {
-    const page  = parseInt(query.page)  || 1;
+    const page = parseInt(query.page) || 1;
     const limit = parseInt(query.limit) || 10;
-    const skip  = (page - 1) * limit;
+    const skip = (page - 1) * limit;
 
     // Always start with the approved filter — this is non-negotiable
     const filter = { status: 'approved' };
@@ -62,30 +62,33 @@ const getCourseById = async (courseId) => {
 // MongoDB $text search requires a text index — but we use $regex here
 // because it works without index setup and is fine for MVP scale.
 const searchCourses = async (query = {}) => {
-    const page  = parseInt(query.page)  || 1;
+    const page = parseInt(query.page) || 1;
     const limit = parseInt(query.limit) || 10;
-    const skip  = (page - 1) * limit;
+    const skip = (page - 1) * limit;
 
-    if (!query.q) {
-        const err = new Error('Search query "q" is required');
-        err.status = 400; err.code = 'BAD_REQUEST';
-        throw err;
+    const searchTerm = query.q || query.title;
+
+    if (!searchTerm && !query.level && !query.tag) {
+        // No filters at all — just return all approved courses
+        return getCourses(query);
     }
 
-    // Case-insensitive regex search across title and description
-    const regex = new RegExp(query.q, 'i');
+    const regex = searchTerm ? new RegExp(searchTerm, 'i') : null;
+    // Case-insensitive regex search across title and description and tags
 
-    const filter = {
-        status: 'approved',   // always enforce this
-        $or: [
+    const filter = { status: 'approved' };
+
+    if (regex) {
+        filter.$or = [
             { title: regex },
             { description: regex },
             { tags: regex }
-        ]
-    };
+        ];
+    }
 
-    // Optional: also filter search results by level
     if (query.level) filter.level = query.level;
+    if (query.tag) filter.tags = { $in: [query.tag] };
+
 
     const [courses, total] = await Promise.all([
         Course.find(filter)

@@ -3,6 +3,7 @@ const router  = express.Router();
 
 const learnerController         = require('./learner.controller');
 const { authenticate, requireRole } = require('../../middleware/auth');
+const { imageUpload } = require('../../middleware/upload.middleware');
 
 // All learner routes require authentication + learner role.
 // A lecturer or admin hitting these endpoints gets a 403 Forbidden.
@@ -29,6 +30,15 @@ router.patch(
     authenticate,
     requireRole('learner'),
     learnerController.updateProfile
+);
+
+// PATCH /api/learner/profile/avatar
+router.patch(
+    '/profile/avatar',
+    authenticate,
+    requireRole('learner'),
+    imageUpload.single('avatar'),
+    learnerController.uploadAvatar
 );
 
 // GET /api/learner/enrollments

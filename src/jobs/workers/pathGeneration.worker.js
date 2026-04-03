@@ -13,7 +13,7 @@ const connection = {
     username: redisUrl.username || undefined,
     password: redisUrl.password || undefined,
     tls: isSecure ? {} : undefined,
-    enableOfflineQueue: true,
+    enableOfflineQueue: false,
     enableReadyCheck: false,
     maxRetriesPerRequest: null,
     lazyConnect: true
@@ -61,7 +61,7 @@ const pathGenerationWorker = new Worker(
                 stages,
                 generatedAt: new Date()
             },
-            { returnDocument: 'after' }
+            { new: true }
         );
 
         console.log(`✅ Path generation complete for user: ${userId}`);

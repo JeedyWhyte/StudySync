@@ -1,18 +1,31 @@
 const User = require('../../models/user.model');
 const Enrollment = require('../../models/enrollment.model');
-const Course     = require('../../models/course.model');
+const Course = require('../../models/course.model');
+const Progress   = require('../../models/progress.model');
+const { uploadThumbnail } = require('../../utils/upload.service');
 
 // GET PROFILE
 // Returns the learner's full user document, minus the password.
 // We never expose the password hash — ever.
 const getProfile = async (userId) => {
-    const user = await User.findById(userId).select('-password');
+    const [user, enrolledCount, completedCount] = await Promise.all([
+        User.findById(userId).select('-password'),
+        Enrollment.countDocuments({ user: userId }),
+        Progress.countDocuments({ user: userId, percentComplete: 100 })
+    ]);
+
     if (!user) {
         const err = new Error('User not found');
         err.status = 404; err.code = 'NOT_FOUND';
         throw err;
     }
-    return user;
+
+    // Return user data merged with the computed stats
+    return {
+        ...user.toObject(),
+        enrolledCourses: enrolledCount,
+        completedCourses: completedCount,
+    };
 };
 
 // UPDATE PROFILE
@@ -23,14 +36,21 @@ const updateProfile = async (userId, updates) => {
     // Whitelist exactly what a learner is allowed to change.
     // Any other field sent in the body is silently ignored.
     const allowed = {};
-    if (updates.name)  allowed.name  = updates.name;
+    if (updates.name) allowed.name = updates.name;
     if (updates.email) allowed.email = updates.email;
+
+    const profileUpdates = {};
+    if (updates.phone !== undefined) profileUpdates['profile.phone'] = updates.phone;
+    if (updates.bio !== undefined) profileUpdates['profile.bio'] = updates.bio;
+    if (updates.university !== undefined) profileUpdates['profile.university'] = updates.university;
+    if (updates.course !== undefined) profileUpdates['profile.course'] = updates.course;
 
     const user = await User.findByIdAndUpdate(
         userId,
-        allowed,
-        { new: true }           // return the updated document, not the old one
+        { ...allowed, ...profileUpdates },
+        { new: true }
     ).select('-password');
+
 
     if (!user) {
         const err = new Error('User not found');
@@ -39,6 +59,20 @@ const updateProfile = async (userId, updates) => {
     }
 
     return user;
+};
+
+// UPLOAD AVATAR
+const uploadAvatar = async (userId, fileBuffer) => {
+    // Reuse the thumbnail uploader — same Cloudinary config, different folder
+    const avatarUrl = await uploadThumbnail(fileBuffer, `avatar_${userId}`);
+
+    const user = await User.findByIdAndUpdate(
+        userId,
+        { 'profile.avatar': avatarUrl },
+        { new: true }
+    ).select('-password');
+
+    return { avatar: avatarUrl };
 };
 
 // ENROLL IN A COURSE
@@ -86,4 +120,4 @@ const getMyEnrollments = async (userId) => {
     return { enrollments };
 };
 
-module.exports = { getProfile, updateProfile, enrollInCourse, getMyEnrollments };
+module.exports = { getProfile, updateProfile, uploadAvatar, enrollInCourse, getMyEnrollments };

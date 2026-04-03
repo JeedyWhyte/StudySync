@@ -36,6 +36,19 @@ const updateProfile = async (req, res, next) => {
     }
 };
 
+// PATCH /api/learner/profile/avatar
+const uploadAvatar = async (req, res, next) => {
+    try {
+        if (!req.file) {
+            return error(res, 'No file uploaded', 400, 'VALIDATION_ERROR');
+        }
+        const data = await learnerService.uploadAvatar(req.user.userId, req.file.buffer);
+        return success(res, data, 'Avatar updated');
+    } catch (err) {
+        next(err);
+    }
+};
+
 // POST /api/courses/:id/enroll
 const enrollInCourse = async (req, res, next) => {
     try {
@@ -60,4 +73,4 @@ const getMyEnrollments = async (req, res, next) => {
 };
 
 
-module.exports = { onboard, getProfile, updateProfile, enrollInCourse, getMyEnrollments };
+module.exports = { onboard, getProfile, updateProfile, uploadAvatar, enrollInCourse, getMyEnrollments };

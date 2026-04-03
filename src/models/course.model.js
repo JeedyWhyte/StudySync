@@ -29,7 +29,7 @@ const courseSchema = new mongoose.Schema({
   modules: [{
     title: String,
     durationMins: Number,
-    // resourceUrl: String,    // external link — YouTube, Google Drive, etc.
+    resourceUrl: String,    // external link — YouTube, Google Drive, etc.
     videoUrl: String    //direct video to cloudinary
   }]
 },

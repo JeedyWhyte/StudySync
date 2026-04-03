@@ -30,13 +30,13 @@ app.get('/health', (req, res) => {
 });
 
 app.use('/api/auth', rateLimiter(20, 60), authRoutes);
-app.use('/api/learner/path', pathsRoutes);
+app.use('/api/learner/path', pathsRoutes);       
+app.use('/api/learner/progress', progressRoutes);    
+app.use('/api/learner', learnerRoutes);
 app.use('/api/chatbot', chatbotRoutes);
 app.use('/api/lecturer', lecturerRoutes);
-app.use('/api/learner', learnerRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/courses', coursesRoutes);
-app.use('/api/learner/progress', progressRoutes);
 app.use('/api/focus', focusRoutes);
 
 app.use(errorHandler);

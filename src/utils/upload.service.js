@@ -46,10 +46,8 @@ const uploadModuleVideo = (fileBuffer, courseId, moduleId) => {
                 eager_async: true   // process in background — don't block the response
             },
             (error, result) => {
-                /*if (error) return reject(error);
-                resolve(result.secure_url);*/
-                // Instead of just resolve(result.secure_url);
-                const hlsUrl = result.eager[0].secure_url;
+                if (error) return reject(error);
+                const hlsUrl = result.eager?.[0]?.secure_url ?? result.secure_url;
                 resolve(hlsUrl);
             }
         );

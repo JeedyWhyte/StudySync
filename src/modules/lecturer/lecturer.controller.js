@@ -10,6 +10,15 @@ const getProfile = async (req, res, next) => {
     }
 };
 
+const updateProfile = async (req, res, next) => {
+    try {
+        const data = await lecturerService.updateProfile(req.user.userId, req.body);
+        return success(res, data, 'Profile updated');
+    } catch (err) {
+        next(err);
+    }
+};
+
 // CREATE COURSE
 const createCourse = async (req, res, next) => {
     try {
@@ -217,6 +226,7 @@ const notifyCourseRejected = async (req, res, next) => {
 
 module.exports = {
     getProfile,
+    updateProfile,
     createCourse,
     getMyCourses,
     getCourseById,

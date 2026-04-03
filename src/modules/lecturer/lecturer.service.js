@@ -7,6 +7,32 @@ const getProfile = async (userId) => {
     return await User.findById(userId).select('-password');
 };
 
+const updateProfile = async (userId, updates) => {
+    const allowed = {};
+
+    if (updates.name) allowed.name = updates.name;
+
+    const profileUpdates = {};
+    if (updates.phone !== undefined) profileUpdates['profile.phone'] = updates.phone;
+    if (updates.bio !== undefined) profileUpdates['profile.bio'] = updates.bio;
+    if (updates.institution !== undefined) profileUpdates['profile.institution'] = updates.institution;
+    if (updates.expertise !== undefined) profileUpdates['profile.expertise'] = updates.expertise;
+
+    const user = await User.findByIdAndUpdate(
+        userId,
+        { ...allowed, ...profileUpdates },
+        { new: true }
+    ).select('-password');
+
+    if (!user) {
+        const err = new Error('User not found');
+        err.status = 404; err.code = 'NOT_FOUND';
+        throw err;
+    }
+
+    return user;
+};
+
 // CREATE COURSE
 const createCourse = async (userId, courseData) => {
     const course = await Course.create({
@@ -440,6 +466,7 @@ const notifyCourseRejected = async (courseId, reason) => {
 
 module.exports = {
     getProfile,
+    updateProfile,
     createCourse,
     getMyCourses,
     getCourseById,
@@ -451,8 +478,8 @@ module.exports = {
     submitCourse,
     getEnrolledStudents,
     getCourseProgress,
-    uploadCourseThumbnail, 
+    uploadCourseThumbnail,
     uploadModuleVideo,
-    notifyCourseApproved,  
+    notifyCourseApproved,
     notifyCourseRejected
 };
