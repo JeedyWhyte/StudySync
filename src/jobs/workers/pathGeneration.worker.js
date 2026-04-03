@@ -61,7 +61,7 @@ const pathGenerationWorker = new Worker(
                 stages,
                 generatedAt: new Date()
             },
-            { new: true }
+            { returnDocument: 'after' }
         );
 
         console.log(`✅ Path generation complete for user: ${userId}`);

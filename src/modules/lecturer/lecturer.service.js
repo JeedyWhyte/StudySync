@@ -1,5 +1,7 @@
 const User = require('../../models/user.model');
 const Course = require('../../models/course.model');
+const { createNotification } = require('../notifications/notifications.service');
+const { addNotificationJob } = require('../../jobs/queues');
 
 const getProfile = async (userId) => {
     return await User.findById(userId).select('-password');
@@ -378,6 +380,64 @@ const uploadModuleVideo = async (userId, courseId, moduleId, fileBuffer) => {
     return { videoUrl };
 };
 
+// NOTIFY COURSE APPROVED
+// Called when admin approves a course via Atlas
+// Creates an in-app notification and queues an email to the lecturer
+const notifyCourseApproved = async (courseId) => {
+    const course = await Course.findById(courseId).populate('createdBy', 'name email');
+
+    if (!course) {
+        const err = new Error('Course not found');
+        err.status = 404;
+        err.code = 'NOT_FOUND';
+        throw err;
+    }
+
+    // Create the in-app notification for the lecturer
+    await createNotification({
+        userId: course.createdBy._id,
+        type: 'course_approved',
+        title: 'Course Approved',
+        message: `Your course "${course.title}" has been approved and is now live`,
+        meta: { courseId: course._id }
+    });
+
+    // Queue the email via BullMQ — notification worker handles the actual sending
+    await addNotificationJob('course_approved', {
+        userId: course.createdBy._id,
+        meta: { courseId: course._id }
+    });
+};
+
+// NOTIFY COURSE REJECTED
+// Called when admin rejects a course via Atlas
+// Includes the rejection reason in both the in-app notification and email
+const notifyCourseRejected = async (courseId, reason) => {
+    const course = await Course.findById(courseId).populate('createdBy', 'name email');
+
+    if (!course) {
+        const err = new Error('Course not found');
+        err.status = 404;
+        err.code = 'NOT_FOUND';
+        throw err;
+    }
+
+    // Create the in-app notification with the reason included
+    await createNotification({
+        userId: course.createdBy._id,
+        type: 'course_rejected',
+        title: 'Course Needs Changes',
+        message: `Your course "${course.title}" was not approved: ${reason}`,
+        meta: { courseId: course._id, reason }
+    });
+
+    // Queue the email
+    await addNotificationJob('course_rejected', {
+        userId: course.createdBy._id,
+        meta: { courseId: course._id, reason }
+    });
+};
+
 module.exports = {
     getProfile,
     createCourse,
@@ -392,5 +452,7 @@ module.exports = {
     getEnrolledStudents,
     getCourseProgress,
     uploadCourseThumbnail, 
-    uploadModuleVideo
+    uploadModuleVideo,
+    notifyCourseApproved,  
+    notifyCourseRejected
 };
